@@ -1,0 +1,118 @@
+.movies__item {
+  max-width: 364px;
+  background-color: #222222;
+  border-radius: 6px;
+}
+
+.movies__photo {
+  width: 100%;
+  object-fit: cover;
+  transition: opacity .33s ease-in-out;
+  border-top-right-radius: 6px;
+  border-top-left-radius: 6px;
+}
+
+.movies__photo:hover {
+  opacity: .8;
+}
+
+.movies__item-box {
+  display: flex;
+  justify-content: space-between;
+  padding: 16px 0 0 16px;
+  min-height: 16px;
+}
+
+.movies__item-title {
+  color: white;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 15.73px;
+  margin: auto 0;
+}
+
+.movies__item-button {
+  width: 30px;
+  height: 30px;
+  outline: none;
+  border: none;
+  padding: 0;
+  margin: auto 16px auto 0;
+  background: #FFFFFF;
+}
+
+.movies__item-button:hover {
+  cursor: pointer;
+}
+
+.movies__item-delete-button {
+  background: url('../../images/delete-button.svg') center no-repeat;
+  transition: opacity .3s ease-in-out;
+  opacity: 0;
+}
+
+.movies__item-delete-button:hover {
+  opacity: 1;
+}
+
+.movies__item-like-button {
+  background: url('../../images/like-inactive.svg') center no-repeat;
+}
+
+.movies__item-like-button-active {
+  background: url('../../images/like-active.svg') center no-repeat;
+}
+
+.movies__item-duration {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 11px;
+  line-height: 13.31px;
+  color: #8B8B8B;
+  margin: 0;
+  padding: 7px 0 16px 16px;
+}
+
+@media(min-width: 768px) and (max-width: 1280px) {
+
+  .movies__item-box {
+    padding: calc(14px + ((-768px + 100vw) * .0039)) 0 0 calc(14px + ((-768px + 100vw) * .0039));
+  }
+
+  .movies__item-button {
+    margin-right: calc(14px + ((-768px + 100vw) * .0039));
+  }
+
+  .movies__item-duration {
+    padding-bottom: calc(14px + ((-768px + 100vw) * .0039));
+  }
+}
+
+@media (max-width: 768px) {
+  .movies__item-box {
+    padding: 14px 0 0 14px;
+  }
+
+  .movies__item {
+    max-width: 100%;
+  }
+
+  .movies__item-title {
+    font-size: 12px;
+    line-height: 14.73px;
+  }
+
+  .movies__item-duration {
+    line-height: 12.4px;
+    padding-bottom: 14px;
+  }
+
+  .movies__item-button {
+
+    margin-right: calc(10px + ((-320px + 100vw) * .0089));
+
+  }
+
+}
+
