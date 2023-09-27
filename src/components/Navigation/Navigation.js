@@ -2,10 +2,11 @@ import React from "react";
 import "./Navigation.css";
 import { Link } from "react-router-dom";
 
-export function Navigation() {
+export function Navigation({ isDarkBackground }) {
 
     const [isMenuShown, setIsMenuShown] = React.useState(false);
     const [isLogged, setIsLogged] = React.useState(true);
+    console.log(isDarkBackground)
 
     function handleCloseMenu() {
         setIsMenuShown(false);
@@ -25,8 +26,9 @@ export function Navigation() {
                 <Link to="/signup" className={isLogged ? 'header__link header__link_type_register no-display' :
                     'header__link header__link_type_register no-display'}>Регистрация</Link>
 
-                {isLogged ? <Link to="/profile" className="header__link header__link_type_account header__menu-link_account 
-                header__menu-link_account-upper header__menu_color_blue">Аккаунт</Link> :
+                {isLogged ? <Link to="/profile" className={`header__link header__link_type_account header__menu-link_account 
+                header__menu-link_account-upper 
+                ${isDarkBackground ? 'header__menu_color_blue' : ''} `}>Аккаунт</Link> :
                     <Link to="/signin" className="header__link header__link_type_login">Войти</Link>}
 
             </div>
@@ -47,3 +49,5 @@ export function Navigation() {
 
     )
 }
+
+/*${isDarkBackground ? 'header__menu_color_blue' : 'header__menu_color_blue' }*/

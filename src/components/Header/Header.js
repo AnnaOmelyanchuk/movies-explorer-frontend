@@ -11,21 +11,20 @@ export function Header() {
   const [isDarkBackground, setIsDarkBackground] = React.useState(false);
 
   React.useEffect(() => {
-    console.log(window.location.pathname)
     setIsDarkBackground(window.location.pathname === '/' ? true : false);
   }, [location])
 
   return (
 
-    <section  
-    className={`header ${isDarkBackground ? '' : 'header_dark'}`}
+    <section
+      className={`header ${isDarkBackground ? '' : 'header_dark'}`}
     >
       <Link to="/">
         <img src={header__logo}
-          className={`header__logo`} 
-        alt="Лого" />
+          className={`header__logo`}
+          alt="Лого" />
       </Link>
-      <Navigation />
+      <Navigation isDarkBackground={isDarkBackground}/>
 
     </section>
 
