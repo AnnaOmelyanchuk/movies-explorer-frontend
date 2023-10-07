@@ -11,10 +11,10 @@ import { Footer } from "../Footer/Footer";
 
 
 
-export function Main() {
+export function Main({loggedIn}) {
     return (
         <>
-            <Header />
+            <Header loggedIn={loggedIn} />
             <Promo />
             <NavTab />
             <AboutProject />

@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { Navigation } from "../Navigation/Navigation";
 import { useLocation, } from "react-router-dom";
 
-export function Header() {
+export function Header({loggedIn}) {
 
   const location = useLocation();
   const [isDarkBackground, setIsDarkBackground] = React.useState(false);
@@ -24,7 +24,7 @@ export function Header() {
           className={`header__logo`}
           alt="Лого" />
       </Link>
-      <Navigation isDarkBackground={isDarkBackground}/>
+      <Navigation isDarkBackground={isDarkBackground} loggedIn={loggedIn}/>
 
     </section>
 

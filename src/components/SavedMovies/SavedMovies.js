@@ -14,7 +14,7 @@ export function SavedMovies() {
         <>
             <Header />
             <SearchForm />
-            <MoviesCardList />
+            <MoviesCardList/>
             <Footer />
         </>
     )

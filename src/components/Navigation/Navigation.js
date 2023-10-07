@@ -2,11 +2,10 @@ import React from "react";
 import "./Navigation.css";
 import { Link } from "react-router-dom";
 
-export function Navigation({ isDarkBackground }) {
+export function Navigation({ isDarkBackground, loggedIn}) {
 
     const [isMenuShown, setIsMenuShown] = React.useState(false);
-    const [isLogged, setIsLogged] = React.useState(true);
-    console.log(isDarkBackground)
+   // const [isLogged, setIsLogged] = React.useState(true);
 
     function handleCloseMenu() {
         setIsMenuShown(false);
@@ -19,14 +18,14 @@ export function Navigation({ isDarkBackground }) {
     return (
         <div className='header__navigation'>
             <div>
-                <Link to="/movies" className={isLogged ? "header__link header__link_type_movies" : 'no-display'}>Фильмы</Link>
-                <Link to="/saved-movies" className={isLogged ? "header__link header__link_type_movies" : 'no-display'}>Сохранённые фильмы</Link>
+                <Link to="/movies" className={loggedIn ? "header__link header__link_type_movies" : 'no-display'}>Фильмы</Link>
+                <Link to="/saved-movies" className={loggedIn ? "header__link header__link_type_movies" : 'no-display'}>Сохранённые фильмы</Link>
             </div>
             <div className="header__login-navigation">
-                <Link to="/signup" className={isLogged ? 'header__link header__link_type_register no-display' :
+                <Link to="/signup" className={loggedIn ? 'header__link header__link_type_register no-display' :
                     'header__link header__link_type_register no-display'}>Регистрация</Link>
 
-                {isLogged ? <Link to="/profile" className={`header__link header__link_type_account header__menu-link_account 
+                {loggedIn ? <Link to="/profile" className={`header__link header__link_type_account header__menu-link_account 
                 header__menu-link_account-upper 
                 ${isDarkBackground ? 'header__menu_color_blue' : ''} `}>Аккаунт</Link> :
                     <Link to="/signin" className="header__link header__link_type_login">Войти</Link>}
@@ -50,4 +49,3 @@ export function Navigation({ isDarkBackground }) {
     )
 }
 
-/*${isDarkBackground ? 'header__menu_color_blue' : 'header__menu_color_blue' }*/

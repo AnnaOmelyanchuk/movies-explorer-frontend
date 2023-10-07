@@ -6,16 +6,28 @@ import { Footer } from "../Footer/Footer";
 import { MoviesCardList } from "../MoviesCardList/MoviesCardList";
 
 
-export function Movies() {
+export function Movies({ searchMovies, movies, loggedIn,
+    setIsShortMoviesChecked, handleSaveMovie, handleDeleteMovie,
+    isShortMoviesChecked, isEnableCheckboxShort, isLoading,
+    notFoundMovies, savedMovies }) {
 
     return (
         <>
-            <Header />
-            <SearchForm />
-            <MoviesCardList />
+            <Header
+                loggedIn={loggedIn} />
+            <SearchForm searchMovies={searchMovies}
+                setIsShortMoviesChecked={setIsShortMoviesChecked}
+                isEnableCheckboxShort={isEnableCheckboxShort} />
+            <MoviesCardList
+                isShortMoviesChecked={isShortMoviesChecked}
+                movies={movies}
+                savedMovies={savedMovies}
+                handleSaveMovie={handleSaveMovie}
+                handleDeleteMovie={handleDeleteMovie}
+                notFoundMovies={notFoundMovies}
+                isLoading={isLoading} />
             <Footer />
         </>
-
     )
 }
 
