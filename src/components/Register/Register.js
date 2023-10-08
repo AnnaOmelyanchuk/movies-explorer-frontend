@@ -60,7 +60,10 @@ export function Register() {
                         <span className='auth__error'>{errors.name}</span>
                         <p className='auth__input-name'>E-mail</p>
                         <input className='auth__input' value={formValue.email} onChange={handleChange}
-                            name="email" type='email' placeholder='Email' required minLength={2} maxLength={40} />
+                            name="email" placeholder='Email' required minLength={2} maxLength={40} 
+                            pattern="[1-9a-zA-Z\- ]{1,}@[1-9a-zA-Z\- ]{1,}.{1,1}[a-zA-Z\- ]{2,3}"
+
+                        />
                         <span className='auth__error'>{errors.email}</span>
                         <p className='auth__input-name'>Пароль</p>
                         <input className="auth__input" type="password" value={formValue.password} onChange={handleChange}
