@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import api from '../../utils/MainApi';
 
 
-export function Register() {
+export function Register({ handleLogin }) {
 
     const [errors, setErrors] = React.useState({});
     const [isValid, setIsValid] = React.useState(true);
@@ -32,8 +32,14 @@ export function Register() {
         e.preventDefault();
         const { name, password, email } = formValue;
         api.register(name, password, email).then((res) => {
-            alert("Удачно")
-            navigate("/signin", { replace: true })
+            api.authorize(formValue.password, formValue.email)
+                .then((data) => {
+                    if (data.token) {
+                        setFormValue({ email: '', password: '' });
+                        handleLogin();
+                        navigate('/movies', { replace: true });
+                    }
+                })
         }
         )
             .catch((res) => {
@@ -60,8 +66,8 @@ export function Register() {
                         <span className='auth__error'>{errors.name}</span>
                         <p className='auth__input-name'>E-mail</p>
                         <input className='auth__input' value={formValue.email} onChange={handleChange}
-                            name="email" placeholder='Email' required minLength={2} maxLength={40} 
-                            pattern="[1-9a-zA-Z\- ]{1,}@[1-9a-zA-Z\- ]{1,}.{1,1}[a-zA-Z\- ]{2,3}"
+                            name="email" placeholder='Email' required minLength={2} maxLength={40}
+                            pattern="[0-9a-zA-Z\- ]{1,}@[0-9a-zA-Z\- ]{1,}.{1,1}[a-zA-Z\- ]{2,3}"
 
                         />
                         <span className='auth__error'>{errors.email}</span>
@@ -74,7 +80,7 @@ export function Register() {
                     <button className={isValid ? "auth__button" : 'auth__button auth__button_disabled'}>Зарегистрироваться</button>
                 </form>
                 <h3 className='auth__caption'>Уже зарегистрированы?
-                    <Link className='auth__link' to="/signin" >Войти</Link></h3>
+                    <Link className='auth__link' to="/" >Войти</Link></h3>
             </div>
 
 

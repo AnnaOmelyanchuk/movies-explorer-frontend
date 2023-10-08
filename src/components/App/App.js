@@ -2,7 +2,7 @@ import './App.css';
 import React from "react";
 import { useEffect, useState } from 'react';
 import ProtectedRouteElement from "../ProtectedRoute/ProtectedRoute";
-import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
+import { Routes, Route, useLocation, useNavigate, redirect } from 'react-router-dom';
 import { Main } from "../Main/Main";
 import { Movies } from "../Movies/Movies";
 import { Profile } from "../Profile/Profile";
@@ -187,7 +187,10 @@ function App() {
               currentUser={currentUser} />} />
 
             <Route
-              path="/signup" element={<Register />} />
+              path="/signup" element={<Register
+                handleLogin={handleLogin} />}
+            />
+
             <Route path="/signin" element={<Login
               handleLogin={handleLogin} />} />
 

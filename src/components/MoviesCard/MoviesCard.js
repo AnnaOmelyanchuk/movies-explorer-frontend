@@ -30,7 +30,7 @@ export function MoviesCard({ movie, handleSaveMovie,
     return (
         <li className="movies__item" >
             <div className='movies__photo-container'>
-                <a href={movie.trailerLink} rel="noreferrer" target="_blank" rel="noreferrer">
+                <a href={movie.trailerLink} rel="noreferrer" target="_blank">
                     <img className="movies__photo" alt={movie.nameRU}
                         src={location.pathname === '/movies' ? URL_SOURCE_FILMS + movie.image.url : movie.image} />
                 </a>

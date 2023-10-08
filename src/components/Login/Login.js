@@ -58,7 +58,7 @@ export function Login({ handleLogin }) {
                         <input className='auth__input'
                             placeholder="email@email.ru"
                             name='email'
-                            pattern="[1-9a-zA-Z\- ]{1,}@[1-9a-zA-Z\- ]{1,}.{1,1}[a-zA-Z\- ]{2,3}"
+                            pattern="[0-9a-zA-Z\- ]{1,}@[0-9a-zA-Z\- ]{1,}.{1,1}[a-zA-Z\- ]{2,3}"
                             value={formValue.email}
                             onChange={handleChange}
                             required />
