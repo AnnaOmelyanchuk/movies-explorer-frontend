@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import api from '../../utils/MainApi';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext'
 
-export function Profile({ setCurrentUser, handleLogOut, loggedIn}) {
+export function Profile({ setCurrentUser, handleLogOut, loggedIn }) {
 
     const currentUser = React.useContext(CurrentUserContext);
     const [errors, setErrors] = React.useState({});
@@ -29,13 +29,13 @@ export function Profile({ setCurrentUser, handleLogOut, loggedIn}) {
         e.preventDefault();
         api.setUserInfo(formValue.name, formValue.email)
             .then((data) => {
-
                 if (data) {
                     setCurrentUser({
                         name: data.name,
                         email: data.email
                     })
                     setFormValue({ email: data.email, name: data.name });
+                    alert("Удачно")
                 }
             })
             .catch((res) => {
@@ -75,12 +75,15 @@ export function Profile({ setCurrentUser, handleLogOut, loggedIn}) {
                         <span className='auth__error'>{errors.email}</span>
                     </fieldset>
                     <span className='profile__message'>{errors.server}</span>
-                    <button className="profile__button profile__button_type_edit"
-                        disabled={(currentUser.name === formValue.name) && currentUser.email === formValue.email ? "disabled" : ''}>Редактировать</button>
+                    <button className={(currentUser.name === formValue.name) && currentUser.email === formValue.email ?
+                        "profile__button profile__button_type_edit profile__button_state_disable" : "profile__button profile__button_type_edit"}
+                        disabled={(currentUser.name === formValue.name) && currentUser.email === formValue.email ? "disabled" : ''}
+
+                    >Редактировать</button>
                 </form>
                 <button className="profile__button profile__button_type_signout">
                     <Link className="profile__button profile__button_type_signout" onClick={handleLogOut}
-                    to="/signin" >Выйти из аккаунта </Link>
+                        to="/signin" >Выйти из аккаунта </Link>
                 </button>
             </section>
 

@@ -72,6 +72,10 @@
     background: none;
 }
 
+.profile__button_state_disable {
+    opacity: 0;
+}
+
 .profile__button_type_edit {
     transition: opacity 0.3s;
 }
