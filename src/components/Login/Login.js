@@ -47,7 +47,9 @@ export function Login({ handleLogin }) {
 
             <div className='auth__container'>
                 <div className="auth__logo-container">
-                    <img src={header__logo} className="auth__logo" alt="Лого" />
+                    <Link to="/">
+                        <img src={header__logo} className="auth__logo" alt="Лого" />
+                    </Link>
                 </div>
                 <h2 className="auth__title">Рады видеть!</h2>
                 <form className='auth__form' onSubmit={handleSubmit}>
@@ -79,6 +81,6 @@ export function Login({ handleLogin }) {
                     <Link className='auth__link' to="/signup">Регистрация</Link></h3>
             </div>
 
-        </section>
+        </section >
     )
 }
