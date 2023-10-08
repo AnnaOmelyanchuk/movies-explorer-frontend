@@ -41,6 +41,7 @@ function App() {
       .catch(err => console.log(`Ошибка.....: ${err}`))
       .finally(() => {
         setIsLoading(false);
+        setNotFoundMovies(false)
       })
   }
 
@@ -48,8 +49,12 @@ function App() {
     setLoggedIn(false)
     localStorage.removeItem('jwt');
     localStorage.removeItem('isEnableCheckboxShort');
+    localStorage.removeItem('isisShortMoviesChecked');
+    localStorage.removeItem('isisShortMoviesCheckedForMoviesSaved');
     localStorage.removeItem('movies');
     localStorage.removeItem('savedMovies');
+    localStorage.removeItem('searchNameSavedMovie');
+    localStorage.removeItem('searchNameMovie');
     setLoggedIn(false);
     setAllMovies([]);
     setMovies([]);
@@ -69,7 +74,6 @@ function App() {
         }
       })
         .catch(err => console.log(`Ошибка.....: ${err}`))
-
     }
   }
 
@@ -78,20 +82,12 @@ function App() {
   }, [])
 
   useEffect(() => {
-
-  }, [])
-
-  useEffect(() => {
     if (location.pathname === '/movies' || location.pathname === '/saved-movies') {
-      const token = localStorage.getItem('jwt');
-      const searchedMovies = JSON.parse(localStorage.getItem('movies'));
-      Promise.all([api.getUserInformationMe(token), api.getSavedMovies(token)])
+      Promise.all([api.getUserInformationMe(), api.getSavedMovies()])
         .then(([userData, movies]) => {
           setCurrentUser(userData);
-          localStorage.setItem('savedMovies', JSON.stringify(movies));
+          //     localStorage.setItem('savedMovies', JSON.stringify(movies));
           setSavedMovies(movies);
-          setMovies(searchedMovies);
-          setLoggedIn(true)
         })
         .catch((err) => {
           console.log(`Ошибка ${err}`);
@@ -110,9 +106,12 @@ function App() {
   const searchMovies = (nameMovie) => {
     setNotFoundMovies(false);
     setIsLoading(true)
+    localStorage.setItem((window.location.pathname === '/movies') ? 'searchNameMovie' : 'searchNameSavedMovie',
+      JSON.stringify(nameMovie))
     if (allMovies.length === 0) {
       getMovies()
         .then((res) => {
+          setAllMovies(res)
           const searchResult = handleSearchMovies(res, nameMovie)
           if (searchResult.length === 0) {
             setNotFoundMovies(true);
@@ -120,7 +119,6 @@ function App() {
           } else {
             localStorage.setItem('movies', JSON.stringify(searchResult))
             setMovies(JSON.parse(localStorage.getItem('movies')));
-
             localStorage.setItem('isEnableCheckboxShort', (JSON.parse(localStorage.getItem('movies')).some(movie => {
               return movie.duration < SHORT_MOVIE_DURATION
             })))
@@ -179,7 +177,7 @@ function App() {
       <div className='page'>
         <CurrentUserContext.Provider value={currentUser}>
           <Routes>
-            <Route path="/" element={<Main loggedIn={loggedIn}/>} />
+            <Route path="/" element={<Main loggedIn={loggedIn} />} />
 
             <Route path="/profile" element={<ProtectedRouteElement
               element={Profile}
@@ -207,6 +205,7 @@ function App() {
               isShortMoviesChecked={isShortMoviesChecked}
               setIsShortMoviesChecked={setIsShortMoviesChecked}
               isEnableCheckboxShort={isEnableCheckboxShort}
+              setNotFoundMovies={setNotFoundMovies}
             />} />
 
             <Route path="/saved-movies" element={<ProtectedRouteElement

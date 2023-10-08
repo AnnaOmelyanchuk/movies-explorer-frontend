@@ -1,11 +1,11 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import "./MoviesCardList.css";
 import Preloader from "../Preloader/Preloader";
 import { MoviesCard } from "../MoviesCard/MoviesCard";
 import { ADDING_CARDS, QUANTITY_OF_CARD, WINDOW_WIDTH, SHORT_MOVIE_DURATION } from "../../utils/constants";
 
 export function MoviesCardList({ movies, isShortMoviesChecked, isLoading,
-    notFoundMovies, handleSaveMovie, handleDeleteMovie, savedMovies }) {
+    notFoundMovies, handleSaveMovie, handleDeleteMovie, savedMovies, setNotFoundMovies }) {
 
     useEffect(() => {
         window.addEventListener('resize', handleScreenWidth);
@@ -64,7 +64,7 @@ export function MoviesCardList({ movies, isShortMoviesChecked, isLoading,
 
     const handleFilterMovies = (movies) => {
         return movies?.filter((movie) => {
-            if (localStorage.getItem('isShortMoviesChecked') === 'true') {
+            if (isShortMoviesChecked) {
                 return movie.duration <= SHORT_MOVIE_DURATION
             } else {
                 return movie
@@ -82,6 +82,14 @@ export function MoviesCardList({ movies, isShortMoviesChecked, isLoading,
         setIsShowedMoreButton(lengthCardsList > initialCardsCur ? true : false)
     }, [lengthCardsList, initialCardsCur, isShortMoviesChecked]);
 
+    useEffect(() => {
+        if (movieList?.length === 0) {
+            localStorage.setItem('isEnableCheckboxShort', true)
+            setNotFoundMovies(true)
+        }
+    }, [lengthCardsList]);
+
+  //  key={window.location.pathname === '/movies' ? movie.id : -movie.id}
     return (
         <section className="movies">
             {isLoading && <Preloader />}
@@ -89,13 +97,12 @@ export function MoviesCardList({ movies, isShortMoviesChecked, isLoading,
             <ul className="movies__grid" >
                 {movieList?.map((movie) =>
                 (<MoviesCard
-                    key={window.location.pathname === '/movies' ? movie.id : -movie.id}
                     handleSaveMovie={handleSaveMovie}
                     handleDeleteMovie={handleDeleteMovie}
                     movie={movie}
                     savedMovies={savedMovies}
                     isShortMoviesChecked={isShortMoviesChecked}
-                     />))}
+                />))}
             </ul>
             <button onClick={handleMoviesIncrease}
                 className={isShowedMoreButton ? 'movies__button-more ' :
