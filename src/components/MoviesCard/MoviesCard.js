@@ -25,7 +25,7 @@ export function MoviesCard({ movie, handleSaveMovie,
         setIsLiked(savedMovies.some(savedMovie => {
             return movie.id === savedMovie.movieId
         }))
-    }, [location, isShortMoviesChecked])
+    }, [location, isShortMoviesChecked, movie])
 
     return (
         <li className="movies__item" >
