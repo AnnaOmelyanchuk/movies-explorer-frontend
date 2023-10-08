@@ -188,8 +188,7 @@ function App() {
 
             <Route
               path="/signup" element={<Register
-                handleLogin={handleLogin} />}
-            />
+                handleLogin={handleLogin} />} />
 
             <Route path="/signin" element={<Login
               handleLogin={handleLogin} />} />

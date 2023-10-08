@@ -83,7 +83,7 @@ export function Profile({ setCurrentUser, handleLogOut, loggedIn }) {
                 </form>
                 <button className="profile__button profile__button_type_signout">
                     <Link className="profile__button profile__button_type_signout" onClick={handleLogOut}
-                        to="/signin" >Выйти из аккаунта </Link>
+                        to="/" >Выйти из аккаунта </Link>
                 </button>
             </section>
 
