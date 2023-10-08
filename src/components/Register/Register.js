@@ -37,7 +37,7 @@ export function Register() {
         }
         )
             .catch((res) => {
-                setErrors({ ...errors, server: res});
+                setErrors({ ...errors, server: res });
             });
 
     }
@@ -47,7 +47,9 @@ export function Register() {
         <section className='register'>
             <div className='auth__container'>
                 <div className="auth__logo-container">
-                    <img src={header__logo} className="auth__logo" alt="Лого" />
+                    <Link to="/">
+                        <img src={header__logo} className="auth__logo" alt="Лого" />
+                    </Link>
                 </div>
                 <h2 className='auth__title'>Добро пожаловать!</h2>
                 <form className='auth__form' onSubmit={handleSubmit}>

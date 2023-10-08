@@ -23,7 +23,7 @@ export function Navigation({ isDarkBackground, loggedIn}) {
             </div>
             <div className="header__login-navigation">
                 <Link to="/signup" className={loggedIn ? 'header__link header__link_type_register no-display' :
-                    'header__link header__link_type_register no-display'}>Регистрация</Link>
+                    'header__link header__link_type_register'}>Регистрация</Link>
 
                 {loggedIn ? <Link to="/profile" className={`header__link header__link_type_account header__menu-link_account 
                 header__menu-link_account-upper 
