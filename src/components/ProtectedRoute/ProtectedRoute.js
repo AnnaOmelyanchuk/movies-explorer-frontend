@@ -4,7 +4,7 @@ import { Navigate } from "react-router-dom"
 
 const ProtectedRouteElement = ({ element: Component, ...props }) => {
   return (
-    props.loggedIn || localStorage.getItem('jwt') ? <Component {...props} /> : <Navigate to="/signin" replace />
+    props.loggedIn || localStorage.getItem('jwt') ? <Component {...props} /> : <Navigate to="/" replace />
   )
 }
 
