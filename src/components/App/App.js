@@ -2,7 +2,7 @@ import './App.css';
 import React from "react";
 import { useEffect, useState } from 'react';
 import ProtectedRouteElement from "../ProtectedRoute/ProtectedRoute";
-import { Routes, Route, useLocation, useNavigate, redirect } from 'react-router-dom';
+import { Routes, Route, useLocation} from 'react-router-dom';
 import { Main } from "../Main/Main";
 import { Movies } from "../Movies/Movies";
 import { Profile } from "../Profile/Profile";
@@ -15,7 +15,7 @@ import { CurrentUserContext } from '../../contexts/CurrentUserContext'
 import { SHORT_MOVIE_DURATION } from "../../utils/constants";
 
 function App() {
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(null);
   const [currentUser, setCurrentUser] = useState({});
   const [savedMovies, setSavedMovies] = React.useState([]);
   const [allMovies, setAllMovies] = React.useState([]);
@@ -25,7 +25,7 @@ function App() {
   const [isShortMoviesChecked, setIsShortMoviesChecked] = React.useState(false);
   const [isEnableCheckboxShort, setIsEnableCheckboxShort] = React.useState(false);
   const location = useLocation();
-  const navigate = useNavigate();
+
 
   const handleLogin = () => {
     setIsLoading(true);
@@ -55,7 +55,6 @@ function App() {
     localStorage.removeItem('savedMovies');
     localStorage.removeItem('searchNameSavedMovie');
     localStorage.removeItem('searchNameMovie');
-    setLoggedIn(false);
     setAllMovies([]);
     setMovies([]);
     setSavedMovies([]);
@@ -70,7 +69,6 @@ function App() {
         if (res) {
           setLoggedIn(true);
           setCurrentUser(res)
-          navigate("/movies", { replace: true })
         }
       })
         .catch(err => console.log(`Ошибка.....: ${err}`))
@@ -79,14 +77,13 @@ function App() {
 
   useEffect(() => {
     handleTokenCheck();
-  }, [])
+  }, [loggedIn])
 
   useEffect(() => {
     if (location.pathname === '/movies' || location.pathname === '/saved-movies') {
       Promise.all([api.getUserInformationMe(), api.getSavedMovies()])
         .then(([userData, movies]) => {
           setCurrentUser(userData);
-          //     localStorage.setItem('savedMovies', JSON.stringify(movies));
           setSavedMovies(movies);
         })
         .catch((err) => {
