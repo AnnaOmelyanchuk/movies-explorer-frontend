@@ -2,7 +2,7 @@ import './App.css';
 import React from "react";
 import { useEffect, useState } from 'react';
 import ProtectedRouteElement from "../ProtectedRoute/ProtectedRoute";
-import { Routes, Route, useLocation} from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import { Main } from "../Main/Main";
 import { Movies } from "../Movies/Movies";
 import { Profile } from "../Profile/Profile";
@@ -18,6 +18,7 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(null);
   const [currentUser, setCurrentUser] = useState({});
   const [savedMovies, setSavedMovies] = React.useState([]);
+  const [allSavedMovies, setAllSavedMovies] = React.useState([]);
   const [allMovies, setAllMovies] = React.useState([]);
   const [notFoundMovies, setNotFoundMovies] = React.useState(false);
   const [movies, setMovies] = React.useState([]);
@@ -28,6 +29,8 @@ function App() {
 
 
   const handleLogin = () => {
+    localStorage.setItem('searchNameSavedMovieForm', '')
+    setNotFoundMovies(false)
     setIsLoading(true);
     setLoggedIn(true);
     alert("Удачно")
@@ -49,8 +52,8 @@ function App() {
     setLoggedIn(false)
     localStorage.removeItem('jwt');
     localStorage.removeItem('isEnableCheckboxShort');
-    localStorage.removeItem('isisShortMoviesChecked');
-    localStorage.removeItem('isisShortMoviesCheckedForMoviesSaved');
+    localStorage.removeItem('isShortMoviesChecked');
+    localStorage.removeItem('isShortMoviesCheckedForMoviesSaved');
     localStorage.removeItem('movies');
     localStorage.removeItem('savedMovies');
     localStorage.removeItem('searchNameSavedMovie');
@@ -58,6 +61,7 @@ function App() {
     setAllMovies([]);
     setMovies([]);
     setSavedMovies([]);
+    setAllSavedMovies([]);
     setNotFoundMovies(false);
     setCurrentUser('');
   }
@@ -84,7 +88,13 @@ function App() {
       Promise.all([api.getUserInformationMe(), api.getSavedMovies()])
         .then(([userData, movies]) => {
           setCurrentUser(userData);
-          setSavedMovies(movies);
+          setAllSavedMovies(movies);
+          const curLocalStorageName = (window.location.pathname === '/movies') ? 'searchNameMovieForm' : 'searchNameSavedMovieForm';
+          localStorage.getItem(curLocalStorageName)
+          if (localStorage.getItem(curLocalStorageName) === '' || localStorage.getItem(curLocalStorageName) === null) {
+            setSavedMovies(allSavedMovies);
+            setMovies(allMovies);
+          }
         })
         .catch((err) => {
           console.log(`Ошибка ${err}`);
@@ -105,42 +115,60 @@ function App() {
     setIsLoading(true)
     localStorage.setItem((window.location.pathname === '/movies') ? 'searchNameMovie' : 'searchNameSavedMovie',
       JSON.stringify(nameMovie))
-    if (allMovies.length === 0) {
-      getMovies()
-        .then((res) => {
-          setAllMovies(res)
-          const searchResult = handleSearchMovies(res, nameMovie)
-          if (searchResult.length === 0) {
-            setNotFoundMovies(true);
-            setMovies([]);
-          } else {
-            localStorage.setItem('movies', JSON.stringify(searchResult))
-            setMovies(JSON.parse(localStorage.getItem('movies')));
-            localStorage.setItem('isEnableCheckboxShort', (JSON.parse(localStorage.getItem('movies')).some(movie => {
-              return movie.duration < SHORT_MOVIE_DURATION
-            })))
-          }
-        })
-        .catch((err) => {
-          console.log(`Ошибка ${err}`)
-        })
-        .finally(() => {
-          setIsLoading(false);
-        })
-    } else {
-      const searchResult = handleSearchMovies(allMovies, nameMovie)
+
+    if (window.location.pathname === '/saved-movies') {
+      const searchResult = handleSearchMovies(allSavedMovies, nameMovie)
       if (searchResult.length === 0) {
         setNotFoundMovies(true);
-        setMovies([]);
-        setIsLoading(false);
-      } else if (searchResult.length !== 0) {
-        localStorage.setItem('movies', JSON.stringify(searchResult));
-        setMovies(JSON.parse(localStorage.getItem('movies')));
+        setSavedMovies([]);
+      } else {
+        localStorage.setItem('movies', JSON.stringify(searchResult))
+        setSavedMovies(JSON.parse(localStorage.getItem('movies')));
         localStorage.setItem('isEnableCheckboxShort', (JSON.parse(localStorage.getItem('movies')).some(movie => {
           return movie.duration < SHORT_MOVIE_DURATION
         })))
-        setIsLoading(false);
-        setNotFoundMovies(false);
+      }
+      setIsLoading(false);
+
+    } else {
+
+      if (allMovies.length === 0) {
+        getMovies()
+          .then((res) => {
+            setAllMovies(res)
+            const searchResult = handleSearchMovies(res, nameMovie)
+            if (searchResult.length === 0) {
+              setNotFoundMovies(true);
+              setMovies([]);
+            } else {
+              localStorage.setItem('movies', JSON.stringify(searchResult))
+              setMovies(JSON.parse(localStorage.getItem('movies')));
+              localStorage.setItem('isEnableCheckboxShort', (JSON.parse(localStorage.getItem('movies')).some(movie => {
+                return movie.duration < SHORT_MOVIE_DURATION
+              })))
+            }
+          })
+          .catch((err) => {
+            console.log(`Ошибка ${err}`)
+          })
+          .finally(() => {
+            setIsLoading(false);
+          })
+      } else {
+        const searchResult = handleSearchMovies(allMovies, nameMovie)
+        if (searchResult.length === 0) {
+          setNotFoundMovies(true);
+          setMovies([]);
+          setIsLoading(false);
+        } else if (searchResult.length !== 0) {
+          localStorage.setItem('movies', JSON.stringify(searchResult));
+          setMovies(JSON.parse(localStorage.getItem('movies')));
+          localStorage.setItem('isEnableCheckboxShort', (JSON.parse(localStorage.getItem('movies')).some(movie => {
+            return movie.duration < SHORT_MOVIE_DURATION
+          })))
+          setIsLoading(false);
+          setNotFoundMovies(false);
+        }
       }
     }
   }
@@ -150,7 +178,7 @@ function App() {
       .then((savedMovie) => {
         const films = [...savedMovies, savedMovie];
         localStorage.setItem('savedMovies', JSON.stringify(films));
-        setSavedMovies(previousState => ([...previousState, savedMovie]));
+        setAllSavedMovies(previousState => ([...previousState, savedMovie]));
       })
       .catch((err) => {
         console.log(`Ошибка ${err}, попробуйте еще раз`);
@@ -161,7 +189,7 @@ function App() {
     api.deleteMovie(movie)
       .then(() => {
         const newSavedMovies = savedMovies.filter((deletedMovie) => { return deletedMovie._id !== movie._id })
-        setSavedMovies(newSavedMovies);
+        setAllSavedMovies(newSavedMovies);
         localStorage.setItem('savedMovies', JSON.stringify(newSavedMovies));
       })
       .catch((err) => {
@@ -197,7 +225,7 @@ function App() {
               handleDeleteMovie={handleDeleteMovie}
               isLoading={isLoading}
               movies={movies}
-              savedMovies={savedMovies}
+              savedMovies={allSavedMovies}
               setMovies={setMovies}
               loggedIn={loggedIn}
               notFoundMovies={notFoundMovies}
@@ -214,13 +242,14 @@ function App() {
               handleDeleteMovie={handleDeleteMovie}
               isLoading={isLoading}
               movies={savedMovies}
-              savedMovies={savedMovies}
+              savedMovies={allSavedMovies}
               setMovies={setMovies}
               loggedIn={loggedIn}
               notFoundMovies={notFoundMovies}
               isShortMoviesChecked={isShortMoviesChecked}
               setIsShortMoviesChecked={setIsShortMoviesChecked}
               isEnableCheckboxShort={isEnableCheckboxShort}
+              setNotFoundMovies={setNotFoundMovies}
             />} />
             <Route path="*" element={<NotFound />} />
 

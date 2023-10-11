@@ -86,10 +86,11 @@ export function MoviesCardList({ movies, isShortMoviesChecked, isLoading,
         if (movieList?.length === 0) {
             localStorage.setItem('isEnableCheckboxShort', true)
             setNotFoundMovies(true)
+        } else {
+            setNotFoundMovies(false)
         }
-    }, [lengthCardsList]);
+    }, [lengthCardsList, movieList]);
 
-  //  key={window.location.pathname === '/movies' ? movie.id : -movie.id}
     return (
         <section className="movies">
             {isLoading && <Preloader />}

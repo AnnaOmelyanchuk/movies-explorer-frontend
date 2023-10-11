@@ -11,11 +11,12 @@ export function SearchForm({ searchMovies, setIsShortMoviesChecked,
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-
+    const curLocalStorageName = (window.location.pathname === '/movies') ? 'searchNameMovieForm' : 'searchNameSavedMovieForm';
     setFormValue({
       ...formValue,
       [name]: value
     });
+    localStorage.setItem(curLocalStorageName, value)
   }
 
   function handleSearchMovies(e) {
@@ -49,7 +50,7 @@ export function SearchForm({ searchMovies, setIsShortMoviesChecked,
         <button type="submit" className="search__form-button" />
       </form>
       <div className="search__filter-check-box">
-        <FilterCheckbox setIsShortMoviesChecked={setIsShortMoviesChecked}
+        <FilterCheckbox setIsShortMoviesChecked={setIsShortMoviesChecked} searchMovies={searchMovies}
           isEnableCheckboxShort={isEnableCheckboxShort} isShortMoviesChecked={isShortMoviesChecked} />
         <h3 className="search__filter-check-box-text">Короткометражки</h3>
       </div>
