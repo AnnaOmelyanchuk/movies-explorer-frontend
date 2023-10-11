@@ -67,7 +67,7 @@ export function Register({ handleLogin }) {
                         <p className='auth__input-name'>E-mail</p>
                         <input className='auth__input' value={formValue.email} onChange={handleChange}
                             name="email" placeholder='Email' required minLength={2} maxLength={40}
-                            pattern="[0-9a-zA-Z\- ]{1,}@[0-9a-zA-Z\- ]{1,}.{1,1}[a-zA-Z\- ]{2,3}"
+                            pattern="[0-9a-zA-Z\- ]{1,}@[0-9a-zA-Z\- ]{1,}[.]{1,1}[a-zA-Z\- ]{2,3}"
 
                         />
                         <span className='auth__error'>{errors.email}</span>
@@ -80,7 +80,7 @@ export function Register({ handleLogin }) {
                     <button className={isValid ? "auth__button" : 'auth__button auth__button_disabled'}>Зарегистрироваться</button>
                 </form>
                 <h3 className='auth__caption'>Уже зарегистрированы?
-                    <Link className='auth__link' to="/" >Войти</Link></h3>
+                    <Link className='auth__link' to="/signin" >Войти</Link></h3>
             </div>
 
 
