@@ -22,7 +22,7 @@ export function MoviesCard({ movie, handleSaveMovie,
 
     useEffect(() => {
         setIsDeleteSelected(window.location.pathname === '/saved-movies' ? true : false);
-        setIsLiked(savedMovies.some(savedMovie => {
+        setIsLiked(JSON.parse(localStorage.getItem('savedMovies')).some(savedMovie => {
             return movie.id === savedMovie.movieId
         }))
     }, [location, isShortMoviesChecked, movie])

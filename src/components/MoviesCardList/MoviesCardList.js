@@ -91,10 +91,6 @@ export function MoviesCardList({ movies, isShortMoviesChecked, isLoading,
         }
     }, [lengthCardsList, movieList]);
 
-    useEffect(() => {
-        console.log('dfsssssd', savedMovies)
-    }, []);
-
     return (
         <section className="movies">
             {isLoading && <Preloader />}
