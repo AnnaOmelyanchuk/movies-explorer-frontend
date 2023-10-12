@@ -2,7 +2,7 @@ import './App.css';
 import React from "react";
 import { useEffect, useState } from 'react';
 import ProtectedRouteElement from "../ProtectedRoute/ProtectedRoute";
-import { Routes, Route, useLocation } from 'react-router-dom';
+import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import { Main } from "../Main/Main";
 import { Movies } from "../Movies/Movies";
 import { Profile } from "../Profile/Profile";
@@ -26,7 +26,7 @@ function App() {
   const [isShortMoviesChecked, setIsShortMoviesChecked] = React.useState(false);
   const [isEnableCheckboxShort, setIsEnableCheckboxShort] = React.useState(false);
   const location = useLocation();
-
+  const navigate = useNavigate();
 
   const handleLogin = () => {
     localStorage.setItem('searchNameSavedMovieForm', '')
@@ -81,6 +81,9 @@ function App() {
 
   useEffect(() => {
     handleTokenCheck();
+    if ((location.pathname === '/signup' || location.pathname === '/signin') && loggedIn) {
+      navigate('/movies', { replace: true });
+    }
   }, [loggedIn])
 
   useEffect(() => {
@@ -212,7 +215,9 @@ function App() {
               currentUser={currentUser} />} />
 
             <Route
-              path="/signup" element={<Register
+              path={"/signup"}
+
+              element={<Register
                 handleLogin={handleLogin} />} />
 
             <Route path="/signin" element={<Login
