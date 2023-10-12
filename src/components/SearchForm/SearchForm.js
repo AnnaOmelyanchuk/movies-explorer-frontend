@@ -25,8 +25,9 @@ export function SearchForm({ searchMovies, setIsShortMoviesChecked,
   }
 
   useEffect(() => {
-    const curLocalStorage = localStorage.getItem((window.location.pathname === '/movies') ? 'searchNameMovie' : 'searchNameSavedMovie');
-    if (curLocalStorage !== '' && curLocalStorage !== null) {
+    const curNameLocalStorage = (window.location.pathname === '/movies') ? 'searchNameMovie' : 'searchNameSavedMovie';
+    const curLocalStorage = localStorage.getItem(curNameLocalStorage);
+    if ((curLocalStorage !== '' && curLocalStorage !== null) && (curNameLocalStorage === 'searchNameMovie')) {
       setFormValue({
         movie: curLocalStorage.replace(/['"]+/g, '')
       });

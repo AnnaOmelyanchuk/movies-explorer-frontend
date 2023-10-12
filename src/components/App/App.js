@@ -92,6 +92,7 @@ function App() {
         .then(([userData, movies]) => {
           setCurrentUser(userData);
           setAllSavedMovies(movies);
+          setSavedMovies(movies);
           const curLocalStorageName = (window.location.pathname === '/movies') ? 'searchNameMovieForm' : 'searchNameSavedMovieForm';
           localStorage.getItem(curLocalStorageName)
           if (localStorage.getItem(curLocalStorageName) === '' || localStorage.getItem(curLocalStorageName) === null) {
@@ -105,6 +106,10 @@ function App() {
         )
     }
   }, [location.pathname, loggedIn])
+
+  useEffect(() => {
+    setSavedMovies(allSavedMovies);
+  }, [allSavedMovies])
 
   const handleSearchMovies = (movies, nameMovie) => {
     const filterRegex = new RegExp(nameMovie, 'gi');
