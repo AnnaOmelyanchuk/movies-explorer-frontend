@@ -2,8 +2,9 @@ import React, { useEffect } from "react";
 import './SearchForm.css';
 import { FilterCheckbox } from "../FilterCheckbox/FilterCheckbox";
 
-export function SearchForm({ searchMovies, setIsShortMoviesChecked,
-  isEnableCheckboxShort, isShortMoviesChecked }) {
+
+export function SearchForm({ searchMovies, setIsShortMoviesChecked, movies,
+  isEnableCheckboxShort, isShortMoviesChecked, isEnableCheckboxShortSavedMovie }) {
 
   const [formValue, setFormValue] = React.useState({
     movie: ''
@@ -12,11 +13,13 @@ export function SearchForm({ searchMovies, setIsShortMoviesChecked,
   const handleChange = (e) => {
     const { name, value } = e.target;
     const curLocalStorageName = (window.location.pathname === '/movies') ? 'searchNameMovieForm' : 'searchNameSavedMovieForm';
+    const curLocalStorageItemEnableChekbox = window.location.pathname === "/movies" ? 'isEnableCheckboxShort' : 'isEnableCheckboxShortSavedMovie';
     setFormValue({
       ...formValue,
       [name]: value
     });
-    localStorage.setItem(curLocalStorageName, value)
+  localStorage.setItem(curLocalStorageItemEnableChekbox, true)
+  localStorage.setItem(curLocalStorageName, value)
   }
 
   function handleSearchMovies(e) {
@@ -52,7 +55,9 @@ export function SearchForm({ searchMovies, setIsShortMoviesChecked,
       </form>
       <div className="search__filter-check-box">
         <FilterCheckbox setIsShortMoviesChecked={setIsShortMoviesChecked} searchMovies={searchMovies}
-          isEnableCheckboxShort={isEnableCheckboxShort} isShortMoviesChecked={isShortMoviesChecked} />
+          isEnableCheckboxShort={isEnableCheckboxShort} isShortMoviesChecked={isShortMoviesChecked}
+          isEnableCheckboxShortSavedMovie={isEnableCheckboxShortSavedMovie}
+          movies={movies}  />
         <h3 className="search__filter-check-box-text">Короткометражки</h3>
       </div>
     </section>

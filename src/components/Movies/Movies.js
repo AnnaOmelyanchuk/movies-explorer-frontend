@@ -9,19 +9,26 @@ import { MoviesCardList } from "../MoviesCardList/MoviesCardList";
 export function Movies({ searchMovies, movies, loggedIn,
     setIsShortMoviesChecked, handleSaveMovie, handleDeleteMovie,
     isShortMoviesChecked, isEnableCheckboxShort, isLoading,
-    notFoundMovies, savedMovies, setNotFoundMovies }) {
+    notFoundMovies, savedMovies, setNotFoundMovies,
+    setIsEnableCheckboxShort, setIsEnableCheckboxShortSavedMovie, isEnableCheckboxShortSavedMovie }) {
 
     return (
         <>
             <Header
                 loggedIn={loggedIn} />
             <SearchForm searchMovies={searchMovies}
+                movies={movies}
                 isShortMoviesChecked={isShortMoviesChecked}
                 setIsShortMoviesChecked={setIsShortMoviesChecked}
-                isEnableCheckboxShort={isEnableCheckboxShort} />
+                isEnableCheckboxShort={isEnableCheckboxShort}
+                isEnableCheckboxShortSavedMovie={isEnableCheckboxShortSavedMovie} />
             <MoviesCardList
+                isEnableCheckboxShort={isEnableCheckboxShort}
                 isShortMoviesChecked={isShortMoviesChecked}
+                setIsEnableCheckboxShort={setIsEnableCheckboxShort}
+                setIsEnableCheckboxShortSavedMovie={setIsEnableCheckboxShortSavedMovie}
                 setIsShortMoviesChecked={setIsShortMoviesChecked}
+                isEnableCheckboxShortSavedMovie={isEnableCheckboxShortSavedMovie}
                 movies={movies}
                 savedMovies={savedMovies}
                 handleSaveMovie={handleSaveMovie}

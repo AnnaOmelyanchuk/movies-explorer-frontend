@@ -5,7 +5,8 @@ import { MoviesCard } from "../MoviesCard/MoviesCard";
 import { ADDING_CARDS, QUANTITY_OF_CARD, WINDOW_WIDTH, SHORT_MOVIE_DURATION } from "../../utils/constants";
 
 export function MoviesCardList({ movies, isShortMoviesChecked, isLoading,
-    notFoundMovies, handleSaveMovie, handleDeleteMovie, savedMovies, setNotFoundMovies }) {
+    notFoundMovies, handleSaveMovie, handleDeleteMovie, savedMovies,
+    setNotFoundMovies, setIsEnableCheckboxShort, setIsEnableCheckboxShortSavedMovie }) {
 
     useEffect(() => {
         window.addEventListener('resize', handleScreenWidth);
@@ -14,7 +15,6 @@ export function MoviesCardList({ movies, isShortMoviesChecked, isLoading,
     useEffect(() => {
         window.addEventListener('resize', handleScreenWidth);
     }, []);
-
 
     const [moreCards, setMoreCards] = React.useState();
     const [lengthCardsList, setLengthCardsList] = React.useState();
@@ -83,13 +83,29 @@ export function MoviesCardList({ movies, isShortMoviesChecked, isLoading,
     }, [lengthCardsList, initialCardsCur, isShortMoviesChecked]);
 
     useEffect(() => {
-        if (movieList?.length === 0) {
+        if (window.location.pathname === '/saved-movies') {
+            localStorage.setItem('isEnableCheckboxShortSavedMovie', movies?.some(movie => {
+                return movie.duration < SHORT_MOVIE_DURATION
+            }))
+        }
+        if (window.location.pathname === '/movies') {
+            localStorage.setItem('isEnableCheckboxShort', movies?.some(movie => {
+                return movie.duration < SHORT_MOVIE_DURATION
+            }))
+        }
+        setIsEnableCheckboxShort(localStorage.getItem('isEnableCheckboxShort') === 'true')
+        setIsEnableCheckboxShortSavedMovie(localStorage.getItem('isEnableCheckboxShortSavedMovie') === 'true')
+
+        if ((movieList?.length === 0) || (movieList?.length === undefined)) {
             localStorage.setItem('isEnableCheckboxShort', true)
-            setNotFoundMovies(true)
+            localStorage.setItem('isEnableCheckboxShortSavedMovie', true)
+            setNotFoundMovies(localStorage.getItem('searchNameMovieForm') === '' ? false : true)
         } else {
             setNotFoundMovies(false)
         }
-    }, [lengthCardsList, movieList]);
+
+        localStorage.setItem('isShortMoviesChecked', false)
+    }, [lengthCardsList, movieList, movies]);
 
     return (
         <section className="movies">
