@@ -126,13 +126,13 @@ class MainApi {
 }
 
 const api = new MainApi({
-    baseUrl: 'http://localhost:3000',
-    moviesUrl: 'http://localhost:3000/movies',
-    usermeUrl: 'http://localhost:3000/users/me',
+    //baseUrl: 'http://localhost:3000',
+    // moviesUrl: 'http://localhost:3000/movies',
+    //  usermeUrl: 'http://localhost:3000/users/me',
 
-   // baseUrl: 'https://api.anyafilms.nomoredomainsicu.ru',
-   // moviesUrl: 'https://api.anyafilms.nomoredomainsicu.ru/movies',
-   // usermeUrl: 'https://api.anyafilms.nomoredomainsicu.ru/users/me',
+    baseUrl: 'https://api.anyafilms.nomoredomainsicu.ru',
+    moviesUrl: 'https://api.anyafilms.nomoredomainsicu.ru/movies',
+    usermeUrl: 'https://api.anyafilms.nomoredomainsicu.ru/users/me',
 
     urlSourceFilms: 'https://api.nomoreparties.co/'
 });
